@@ -1,17 +1,19 @@
 {
   "policy_name": "Sierra Mutual Underwriting Model Deployment Policy",
-  "policy_version": "1.0",
+  "policy_version": "1.1",
   "owner": "Model Risk Officer (second line of defense)",
   "approved_by": "AI Risk Committee",
   "effective_date": "2026-10-19",
   "rationale": "Thresholds were set BEFORE any model results were seen. In this repository a model author may TIGHTEN a threshold or ADD a control in the same pull request; the CI integrity check reports every such change for owner review and refuses any change that loosens a threshold or shortens a protection list.",
 
-  "pii_columns": ["applicant_name", "drivers_license_no", "email", "phone", "street_address"],
-  "leakage_columns": ["claim_paid_amount"],
+  "pii_columns": ["applicant_name", "drivers_license_no", "email", "phone", "street_address", "zip", "date_of_birth"],
+  "leakage_columns": ["claim_paid_amount", "adjuster_fraud_review", "renewal_offered"],
   "max_feature_label_correlation": 0.60,
 
   "suspect_columns": ["prior_claims_3y", "renewal_offered", "annual_mileage_declared"],
-  "column_rulings": {},
+  "column_rulings": {"prior_claims_3y": "allowed",
+  "renewal_offered": "leakage",
+  "annual_mileage_declared": "allowed"},
 
   "sensitive_attributes": ["area", "gender"],
   "protected_attribute": "area",
@@ -21,5 +23,6 @@
   "min_subgroup_auc": 0.64,
   "min_subgroup_tpr": 0.70,
   "min_approval_disparity_ratio": 0.80,
-  "min_tpr_ratio": 0.80
+  "min_tpr_ratio": 0.80,
+  "min_fpr_ratio": 0.75
 }

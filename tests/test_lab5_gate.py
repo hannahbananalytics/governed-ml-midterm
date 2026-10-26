@@ -58,4 +58,8 @@ def test_gate_blocks_fpr_gap():
     Replace the skip with a test that builds metrics with an fpr_ratio BELOW
     your policy's min_fpr_ratio and asserts the decision is BLOCKED. Then add a
     second assert showing that an fpr_ratio at or above the threshold PASSES."""
-    pytest.skip("LAB 5: write this test")
+    threshold = POLICY["min_fpr_ratio"]
+    assert run_gate(fake_metrics(fpr_ratio=threshold - 0.10),
+                    POLICY)["decision"] == "BLOCKED"
+    assert run_gate(fake_metrics(fpr_ratio=threshold),
+                    POLICY)["decision"] == "PASS"

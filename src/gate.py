@@ -76,6 +76,15 @@ def run_gate(metrics, policy):
     #    Then choose the threshold in governance/policy.json, defend it in
     #    MIDTERM.md, and prove the check fires in tests/test_lab5_gate.py.
 
+    if "min_fpr_ratio" in policy:
+        results.append(check(
+            "fpr_ratio",
+            metrics["fpr_ratio"],
+            policy["min_fpr_ratio"],
+            metrics["fpr_ratio"] >= policy["min_fpr_ratio"],
+            "Claim-filing drivers must be let through at"
+            " similar rates across groups."))
+        
     passed = all(r["passed"] for r in results)
     return {"decision": "PASS" if passed else "BLOCKED", "policy_version": policy["policy_version"], "checks": results}
 
